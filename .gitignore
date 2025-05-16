@@ -418,3 +418,4 @@ myenv/
 
 # Log files
 *.log 
+credentials.json

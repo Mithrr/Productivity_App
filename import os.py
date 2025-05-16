@@ -14,7 +14,7 @@ SCOPES = ['https://www.googleapis.com/auth/drive.file',
           'https://www.googleapis.com/auth/tasks']
 
 # Set up your Google Maps API key
-GOOGLE_MAPS_API_KEY = 'AIzaSyByj7Jj1SBGFb03RA-a4D47LR2jJ2OZdxs'
+GOOGLE_MAPS_API_KEY = '_'
 
 def authenticate_google_services():
     """Authenticate and return Google Drive, Calendar, and Tasks services."""

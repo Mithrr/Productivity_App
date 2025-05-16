@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Event Note</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Add Event Note</h1>
+<form id="eventForm">
+    <label for="eventName">Event Name:</label>
+    <input type="text" id="eventName" name="eventName" required>
+
+    <label for="location">Location:</label>
+    <input type="text" id="location" name="location" required>
+
+    <label for="dateTime">Date and Time:</label>
+    <input type="datetime-local" id="dateTime" name="dateTime" required>
+
+    <label for="notes">Additional Notes:</label>
+    <textarea id="notes" name="notes" rows="4" placeholder="Add any additional notes here..."></textarea>
+
+    <button type="submit">Add Note</button>
+</form>
+
+<div id="responseMessage"></div>
+
+<script>
+    document.getElementById('eventForm').addEventListener('submit', async function(event) {
+        event.preventDefault();
+
+        const eventName = document.getElementById('eventName').value;
+        const location = document.getElementById('location').value;
+        const dateTime = document.getElementById('dateTime').value;
+        const notes = document.getElementById('notes').value;
+
+        const responseMessage = document.getElementById('responseMessage');
+
+        // Format the dateTime to ISO string
+        const formattedDateTime = new Date(dateTime).toISOString();
+        console.log("Formatted DateTime:", formattedDateTime); // Debugging log
+
+        // Log the request body
+        console.log("Request Body:", JSON.stringify({
+            eventName,
+            location,
+            dateTime: formattedDateTime,
+            notes
+        }));
+
+        try {
+            const response = await fetch('/add-note', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    eventName,
+                    location,
+                    dateTime: formattedDateTime, // Use the formatted dateTime
+                    notes
+                })
+            });
+
+            const result = await response.json();
+            if (response.ok) {
+                responseMessage.innerText = 'Note added successfully! ID: ' + result.fileId;
+            } else {
+                responseMessage.innerText = 'Error: ' + result.error;
+            }
+        } catch (error) {
+            responseMessage.innerText = 'Network error: ' + error.message;
+        }
+    });
+</script>
+
+</body>
+</html>

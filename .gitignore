@@ -399,3 +399,22 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+# Secret credentials
+client_secret.json
+token.json
+.env
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Virtual environments
+venv/
+myenv/
+
+# OS files
+.DS_Store
+
+# Log files
+*.log 
